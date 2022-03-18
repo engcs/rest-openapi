@@ -1,0 +1,109 @@
+openapi: 3.0.0
+
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/engcs/api-capacidade-de-corrente/0.1.0
+  - description: Breve descrição do server
+    url: https://virtserver.swaggerhub.com
+
+info:
+  title: API - Ampacidade em cabos
+  description: API de capacidade de corrente em cabos de cobre
+  version: "0.1.0"
+  contact:
+    email: eng.cristiansousa@gmail.com
+
+tags:
+  - name: administradores
+    description: Chamada válida apenas para administradores
+  - name: desenvolvedores
+    description: Operação disponível para desenvolvedores
+
+components:
+  schemas:
+    CaboPVC:
+      type: object
+      properties:
+        id:
+          type: number
+          format: id
+          example: 1
+        name:
+          type: string
+          example: 1,5
+      required:
+        - id
+        - name
+
+paths:
+  /pvc:
+    get:
+      tags:
+        - desenvolvedores
+      summary: retorna a ampacidade dos cabos de pvc
+
+      operationId: searchInventory
+
+      description: |
+        Ao passar as opções adequadas, você pode retornar os cabos com isolação de pvc disponíveis no sistema
+
+      parameters:
+        - in: query
+          name: searchString
+          description: passa uma string opcional na busca do item
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: skip
+          description: número de registros para pular na paginação
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+        - in: query
+          name: limit
+          description: número máximo de registros a retornar
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 50
+
+      responses:
+        '200':
+          description: operação realizada com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CaboPVC'
+        '400':
+          description: parâmetro de entrada incorreto
+    # post:
+    #   tags:
+    #     - administradores
+
+    #   summary: adiciona um novo item
+
+    #   operationId: addItem
+
+    #   description: |
+    #     Adiciona novos cabos com isolação de pvc no sistema
+
+    #   responses:
+    #     '201':
+    #       description: item criado
+    #     '400':
+    #       description: 'entrada inválida, objeto inválido'
+    #     '409':
+    #       description: o item já existe
+
+    #   requestBody:
+    #     content:
+    #       application/json:
+    #         schema:
+    #           $ref: '#/components/schemas/CabosPVC'
+    #     description: Item a ser adicionado
