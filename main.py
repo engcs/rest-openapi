@@ -1,2 +1,2 @@
-def retorna_tabela():
-    return "TABELA"
+def retorna_tabela(nome, email):
+    return {"status": nome, "mensagem": email}
